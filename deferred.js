@@ -17,7 +17,7 @@
 		this.options = toolous.merge({
 			once: false,
 			memory: true
-		},options);
+		}, options);
 	}
 	/**
 	 * Binds cb as a listener for this CallbackList. <br/>
@@ -25,7 +25,7 @@
 	 */
 	CallbackList.prototype.add = function(cb) {
 		this._callbacks.push(cb);
-		if(this.hasOwnProperty("firedArgs")) { //memory
+		if(this.firedArgs) { //memory, firedArgs is always trueish if exists (since it's any array)
 			this.fireWith.apply(this,[this.firedContext].concat(this.firedArgs)); //also removes the listener if once===true
 		}
 		return this;
@@ -41,7 +41,7 @@
 			this.firedArgs = args;
 			this.firedContext = context;
 		}
-		forEach(this._callbacks, function(cb) {
+		toolous.forEach(this._callbacks, function(cb) {
 			cb.apply(context,args);
 		});
 		if(this.options.once) { //clean listeners
@@ -60,10 +60,9 @@
 	//===========================END Callback lists===========================
 	
 	//========================= Finite State Machine =========================
-	
 	/**
 	 * Finite State Machine (Or a flying spaghetti monster). <br/>
-	 * A finite state machine has a state (string), and can fire events for state changes    
+	 * A finite state machine has a state (string), and fires events when the state changes    
  	 * @param {Object} options Optional options object of the following format:
  	 * @param {string} options.state the initial state name. (default="initial")
  	 * @param {Object} options.stateOptions map between state names to their specific options. of the form {stateName: {once:bool, memory: bool, finalState: bool}}
@@ -104,7 +103,7 @@
 	 * @param {Object} state
 	 * @param {Object} func
 	 */
-	FSM.prototype.addListener = function(state, func) {
+	FSM.prototype.on = function(state, func) {
 		state = String(state);
 		var cbList = this._listeners[state];
 		if(!cbList) { //create CallbackList
@@ -139,39 +138,62 @@
 	//======================= END Finite State Machine =======================
 	
 	//=============================== Deferred ===============================
-	var PROMISE_FUNCTIONS = ["state","then", "done", "fail", "always", "pipe", "progress"];
+	var PROMISE_FUNCTIONS = ["state","then", "done", "fail", "always", "pipe", "progress", "promise"];
 	var STATES = {
-		resolved: { fire: "resolve", listen: "done", 		memory: true, once: true, query: "isResolved", finalState: true},
-		rejected: { fire: "reject",  listen: "fail", 		memory: true, once: true, query: "isRejected", finalState: true},
-		pending:  { fire: "notify",  listen: "progress", 	memory: true, once: false}
+		resolved: { fire: "resolve", listen: "done", 	 thenIndex:0, memory: true, once: true, query: "isResolved", finalState: true},
+		rejected: { fire: "reject",  listen: "fail", 	 thenIndex:1, memory: true, once: true, query: "isRejected", finalState: true},
+		pending:  { fire: "notify",  listen: "progress", thenIndex:2, memory: true, once: false}
 	};
 	
-	function Promsise(deferred) {
+	/**
+	 * Promise exposes the only promise's set of methods from a deferred object. 
+ 	 * @param {Object} deferred the deferred object of which methods to expose
+ 	 * @param {any} this either a newly created object (when used with new), or an object to copy all of the promise methods to. 
+	 */
+	function Promise(deferred) {
 		var promise = this;
-		forEach(PROMISE_FUNCTIONS,function(funcName) {
-			promise[funcName] = toolous.bind(funcName, deferred);
+		toolous.forEach(PROMISE_FUNCTIONS,function(funcName) {
+			promise[funcName] = function() {
+				var ret = deferred[funcName].apply(deferred,arguments);
+				return ret === deferred ? promise : ret; //Not returning the deferred object.
+			};
 		});
 	}
 	
-	function Deferred() {
+	function Deferred(init) {
 		this._fsm = new FSM({state:"pending",statesOptions: STATES});
+		
+		var promise = new Promise(this);
+		this.promise = function(obj) {
+			if(!isDef(obj)) {
+				return promise;
+			}
+			else {
+				toolous.merge(obj, promise); //copy properties, instanceof will not work. 
+				return obj;
+			}
+		};
+		
+		if(isDef(init)) {
+			init.call(this,this);
+		}
 	};
 	
-	forEachKey(STATES, function(state, stateDefinition) {
+	toolous.forEachKey(STATES, function(state, stateDefinition) {
 		var fire = stateDefinition.fire,
 			listen = stateDefinition.listen,
 			query = stateDefinition.query;
 		
-		Deferred.prototype[listen] = function(cb) {
+		Deferred.prototype[listen] = function(cb) { //Add listeners
 			this._fsm.addListener(state,cb);
 			return this;
 		};
 		Deferred.prototype[fire] = function() {
-			this._fsm.fire.apply(this._fsm, [state].concat(Array.prototype.slice.call(arguments,0)));
+			this[fire+"With"].apply(this,toolous.toArray(arguments, 0, this));
 			return this;
 		};
 		Deferred.prototype[fire+"With"] = function(context) {
-			this._fsm.fireWith.apply(this._fsm, [state,context].concat(Array.prototype.slice.call(arguments,1)));
+			this._fsm.fireWith.apply(this._fsm, toolous.toArray(arguments, 1, state, context));
 			return this;
 		};
 		
@@ -183,44 +205,63 @@
 	});
 	
 	
-	Deferred.prototype.promise = function(obj) {
-		if(!isDef(obj)) {
-			return new Promise(this);
-		}
-		else {
-			return Promise.call(obj); //instanceof will not work.
-		}
-	};
-	
-	
 	Deferred.prototype.always = function(cb) {
 		return this.done.apply(this, arguments).fail.apply(this, arguments);
 	};
 	Deferred.prototype.state = function() {
 		return this._fsm.state();
 	};
-	Deferred.prototype.then = function(cb) {
-		//TODO
+	Deferred.prototype.then = function(/*doneFilter, failFilter, progressFilter*/) { //Took some inspiration from jQuery's implementation at https://github.com/jquery/jquery/blob/master/src/deferred.js
+		var args = arguments,
+			retDeferred = new Deferred(),
+			me = this;
+		toolous.forEachKey(STATES, function(state, stateDefinition) {
+			var i = stateDefinition.thenIndex,
+				fire = stateDefinition.fire,
+				listen = stateDefinition.listen,
+				filter = toolous.isFunction(args[i]) && args[i];
+			me[listen](function() {
+				var filterResult = filter && filter.apply(this,arguments);
+				if(filterResult && toolous.isFunction(filterResult.promise)) { //a deferred object
+					filterResult.promise()[.done(retDeferred.resolve)]
+				}
+			});
+		});
+		return ret.promise();
 	};
 	Deferred.prototype.pipe = Deferred.prototype.then;
 	
-	Deferred.when = function(obj) { //"static" method
-		var args = Array.prototype.slice.call(arguments,0);
-		if(!args.length) {
-			return;
+	Deferred.when = function() { //"static" method
+		var args = toolous.toArray(arguments),
+			ret = new Deferred(),
+			remaining = args.length,
+			results = new Array(remaining),
+			single,
+			checkComplete = function() {
+				if(remaining === 0) {
+					ret.resolve(results);
+				}
+			};
+		
+		if(remaining === 1) {
+			single = args[0];
+			if(single !== null) {
+				if(single instanceof Deferred) {
+					return single.promise();
+				}
+				if(single instanceof Promise) {
+					return single;
+				}
+			}
+			return ret.resolve(single);
 		}
-		var ret = new Deferred();
-		var results = [];
-		var remaining = args.length;
-		ret.progress(function(i,val) {
+		
+		ret.progress(function(i,val) { //mark the ith deferred as returned.
 			--remaining;
 			results[i] = val;
-			
-			if(remaining === 0) {
-				ret.resolve(results);
-			}
+			checkComplete();
 		});
-		forEach(args, function(arg, i) {
+		toolous.forEach(args, function(arg, i) {
 			if(isDef(arg) && arg !== null && (arg instanceof Promise || arg instanceof Deferred)) {
 				arg.done(function(value) {
 					ret.notify(i,value);
@@ -234,6 +275,7 @@
 			}
 		});
 		
+		checkComplete(); //for remaining === 0
 		
 		return ret.promise();
 	}; 
