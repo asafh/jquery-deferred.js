@@ -193,11 +193,13 @@
 			return this;
 		};
 	}
-
+	
+	var id = 0;
 	function Deferred(init) {
 		if (!(this instanceof Deferred)) {//must be called with new.
 			return new Deferred(init);
 		}
+		this.id = ++id;
 		var deferred = this;
 		this._fsm = new FSM({
 			state : "pending",
@@ -216,7 +218,7 @@
 		};
 		
 		toolous.forEachKey(Deferred.prototype, function(name,func) {
-			this[name] = toolous.bind(func,deferred);
+			deferred[name] = toolous.bind(func,deferred);
 		});
 		this.pipe = this.then;
 
