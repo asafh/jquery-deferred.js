@@ -42,7 +42,7 @@
 	CallbackList.prototype.fireWith = function(context) {
 		var args = toolous.toArray(arguments, 1);
 		//ignore context as a parameter to the callback
-		if (this.memory) {//store value in memory
+		if (this.options.memory) {//store value in memory
 			this.firedArgs = args;
 			this.firedContext = context;
 		}
@@ -103,6 +103,14 @@
 		}
 		return actual;
 	};
+	FSM.prototype._getCallbackList = function(state) {
+		var cbList = this._listeners[state];
+		if (!cbList) {//create CallbackList
+			var cblOptions = this._getStateOptions(state);
+			this._listeners[state] = cbList = new CallbackList(cblOptions);
+		}
+		return cbList;
+	};
 	/**
 	 * Adds func as a listener when the state changes to <code>state<code>
 	 * @param {Object} state
@@ -110,11 +118,7 @@
 	 */
 	FSM.prototype.on = function(state, func) {
 		state = String(state);
-		var cbList = this._listeners[state];
-		if (!cbList) {//create CallbackList
-			var cblOptions = this._getStateOptions(state);
-			this._listeners[state] = cbList = new CallbackList(cblOptions);
-		}
+		var cbList = this._getCallbackList(state);
 		cbList.add(func);
 	};
 
@@ -135,10 +139,8 @@
 			this._state = state = String(state);
 			var args = toolous.toArray(arguments, 2, context); //removing state and context
 			//skipping state
-			var cbList = this._listeners[state];
-			if (cbList) {
-				cbList.fireWith.apply(cbList, args);
-			}
+			var cbList = this._getCallbackList(state);
+			cbList.fireWith.apply(cbList, args);
 		}
 		//get
 		return this._state;
@@ -271,8 +273,10 @@
 						filterPromise[chainStateDefinition.listen](retDeferred[chainStateDefinition.fire]);
 					});
 				} else {//value, passed along
-					retDeferred[stateDefinition.fire + "With"].apply(retDeferred, me.promise(), filter ? [filterResult] : arguments);
 					//if no filter pass arguments as is
+					var args = [me.promise()].concat(filter ? [filterResult] : toolous.toArray(arguments)); //add context
+					retDeferred[stateDefinition.fire + "With"].apply(retDeferred, args);
+					
 				}
 			});
 		});
