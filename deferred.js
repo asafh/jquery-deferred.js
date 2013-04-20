@@ -260,22 +260,50 @@
 		return this._fsm.state();
 	};
 	Deferred.prototype.then = function(/*doneFilter, failFilter, progressFilter*/) {//Took some inspiration from jQuery's implementation at https://github.com/jquery/jquery/blob/master/src/deferred.js
-		var args = arguments, retDeferred = new Deferred(), me = this;
+		var args = arguments,
+			retDeferred = new Deferred(), //"returns a new promise that can filter the status and values of a deferred through a function"
+			me = this; //The deferred on which to perform the filter
 		toolous.forEachKey(STATES, function(state, stateDefinition) {
 			var i = stateDefinition.thenIndex,
 			// fire = stateDefinition.fire,
-			listen = stateDefinition.listen, filter = toolous.isFunction(args[i]) && args[i];
+				listen = stateDefinition.listen,
+				filter = toolous.isFunction(args[i]) && args[i];
 			me[listen](function() {
 				var filterResult = filter && filter.apply(this, arguments);
-				if (filterResult && toolous.isFunction(filterResult.promise)) {//a deferred object
+				if (filterResult && toolous.isFunction(filterResult.promise)) {
+					//Case A: "These filter functions can return"..."[an] observable
+					//			object (Deferred, Promise, etc) which will pass its 
+					//			resolved / rejected status and values to the promise's callbacks"
 					var filterPromise = filterResult.promise();
+					//Listening to any event on the observable, passing the
+					//call into the returned promise:
 					toolous.forEachKey(STATES, function(_, chainStateDefinition) {
-						filterPromise[chainStateDefinition.listen](retDeferred[chainStateDefinition.fire]);
+						filterPromise[chainStateDefinition.listen](function() {
+							//Prepending 'this' in order to keep the same context
+							//the event which should be the same as given to the
+							//filter promise.
+							var args = toolous.toArray(arguments, 0, this); 
+							retDeferred[chainStateDefinition.fire+"With"].apply(retDeferred, args);
+						});
 					});
 				} else {//value, passed along
-					//if no filter pass arguments as is
-					var args = [me.promise()].concat(filter ? [filterResult] : toolous.toArray(arguments)); //add context
-					retDeferred[stateDefinition.fire + "With"].apply(retDeferred, args);
+					//Case B: "If the filter function used is null, or not specified,
+					//			the promise will be resolved or rejected with the same
+					//			values as the original."
+					//Case C: "These filter functions can return a new value to be
+					//			passed along to the promise's .done() or .fail() callbacks"
+					
+					//If the context is the original deferred object, it wasn't specified
+					//and we need to pass the returned deferred Otherwise we pass the new context 
+					var context = this.promise() === me.promise() ?
+										retDeferred.promise() : this;
+					
+					//"If the filter function used is null, or not specified, the promise
+					// will be resolved or rejected with the same values as the original.":
+					var eventArgs = filter ? [filterResult] : toolous.toArray(arguments);
+					
+					retDeferred[stateDefinition.fire + "With"].apply(retDeferred,
+														[context].concat(eventArgs));
 					
 				}
 			});
