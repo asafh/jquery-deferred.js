@@ -437,8 +437,8 @@ test( "jQuery.when - joined", function() {
 			jQuery.when( defer1, defer2 ).done(function( a, b ) {
 				if ( shouldResolve ) {
 					deepEqual( [ a, b ], expected, code + " => resolve" );
-					strictEqual( this[ 0 ], context1, code + " => first context OK" );
-					strictEqual( this[ 1 ], context2, code + " => second context OK" );
+					strictEqual( this[ 0 ], context1, code + " => first context OK (done)" );
+					strictEqual( this[ 1 ], context2, code + " => second context OK (done)" );
 				} else {
 					ok( false,  code + " => resolve" );
 				}
@@ -450,8 +450,8 @@ test( "jQuery.when - joined", function() {
 				}
 			}).progress(function( a, b ) {
 				deepEqual( [ a, b ], expectedNotify, code + " => progress" );
-				strictEqual( this[ 0 ], expectedNotify[ 0 ] ? context1 : undefined, code + " => first context OK" );
-				strictEqual( this[ 1 ], expectedNotify[ 1 ] ? context2 : undefined, code + " => second context OK" );
+				strictEqual( this[ 0 ], expectedNotify[ 0 ] ? context1 : undefined, code + " => first context OK (progress)" );
+				strictEqual( this[ 1 ], expectedNotify[ 1 ] ? context2 : undefined, code + " => second context OK (progress)" );
 			});
 		});
 	});

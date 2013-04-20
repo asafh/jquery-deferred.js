@@ -331,51 +331,71 @@
 
 	exports.when = function(single) {
 		var whenArgs = toolous.toArray(arguments),
-			ret = new Deferred(),
+			resDef = new Deferred(),
 			remaining = whenArgs.length,
-			results = new Array(remaining),
-			eventContext = null,
-			checkComplete = function() {
-				if (remaining === 0) {
-					ret.resolveWith.apply(ret,[eventContext].concat(results));
-				}
-			};
+			combinedState,
+			checkComplete;
 
 		if (remaining <= 1) { //Single 
 			if(!Deferred.isObservable(single)) {
 				//"If a single argument is passed to jQuery.when and it is not a
 				// Deferred or a Promise, it will be treated as a resolved Deferred
 				// and any doneCallbacks attached will be executed immediately"
-				single = new Deferred().resolveWith(eventContext, single);
+				single = new Deferred().resolveWith(null, single);
 			}
 			//"If a single Deferred is passed to jQuery.when, its Promise object
 			// (a subset of the Deferred methods) is returned by the method""
 			return single.promise();
 		}
-
-		ret.progress(function(i, val) {//mark the ith deferred as returned.
-			--remaining;
-			results[i] = val;
-			checkComplete();
+		
+		//Multiple values:
+		combinedState = {};
+		toolous.forEach(["resolved","progress"], function(name) {
+			combinedState[name] = {
+				"contexts": new Array(remaining),
+				"values": new Array(remaining) 
+			};
 		});
-		toolous.forEach(whenArgs, function(arg, i) {
-			if (toolous.isDef(arg) && arg !== null && ( arg instanceof Promise || arg instanceof Deferred)) {
-				arg.done(function(value) {
-					ret.notifyWith(eventContext,i, value);
+		checkComplete = function() {
+			if (remaining === 0) {
+				var context = combinedState.resolved.contexts,
+					values = combinedState.resolved.values;
+				resDef.resolveWith.apply(resDef,[context].concat(values));
+			}
+		};
+
+		var valueResolved = function(i,context, value) { //mark the ith deferred as returned.
+			--remaining;
+			combinedState.resolved.values[i] = value;
+			combinedState.resolved.contexts[i] = this;
+			checkComplete();
+		};
+		
+		toolous.forEach(whenArgs, function(whenPart, i) {
+			if (Deferred.isObservable(whenPart)) {
+				whenPart.done(function(value) {
+					valueResolved(i,this,value);
 				});
-				arg.fail(function(args) {
-					ret.rejectWith(eventContext, args);
+				whenPart.progress(function(value) {
+					var context = combinedState.resolved.contexts,
+						values = combinedState.resolved.values;
+					context[i] = this;
+					values[i] = value;
+					
+					resDef.notifyWith.apply(resDef,[context].concat(values));
 				});
-			} else {
-				ret.notifyWith(eventContext, i, arg);
-				//immidiate value
+				whenPart.fail(function(args) {
+					resDef.rejectWith(this, args);
+				});
+			} else { //Immidiate value:
+				valueResolved(i, null, whenPart);
 			}
 		});
 
 		checkComplete();
 		//zero args or all immediate
 
-		return ret.promise();
+		return resDef.promise();
 	};
 
 	exports.Deferred = Deferred;
