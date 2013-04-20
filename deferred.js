@@ -330,11 +330,12 @@
 			ret = new Deferred(),
 			remaining = args.length,
 			results = new Array(remaining),
-			single, checkComplete = function() {
-			if (remaining === 0) {
-				ret.resolve(results);
-			}
-		};
+			single,
+			checkComplete = function() {
+				if (remaining === 0) {
+					ret.resolveWith(null, results);
+				}
+			};
 
 		if (remaining === 1) {
 			single = args[0];
@@ -346,7 +347,7 @@
 					return single;
 				}
 			}
-			return ret.resolve(single);
+			// return ret.resolve(single); //This will be handled with regular logic
 		}
 
 		ret.progress(function(i, val) {//mark the ith deferred as returned.
@@ -357,13 +358,13 @@
 		toolous.forEach(args, function(arg, i) {
 			if (toolous.isDef(arg) && arg !== null && ( arg instanceof Promise || arg instanceof Deferred)) {
 				arg.done(function(value) {
-					ret.notify(i, value);
+					ret.notifyWith(null,i, value);
 				});
 				arg.fail(function(args) {
-					ret.reject(args);
+					ret.rejectWith(null, args);
 				});
 			} else {
-				ret.notify(i, arg);
+				ret.notifyWith(null, i, arg);
 				//immidiate value
 			}
 		});
