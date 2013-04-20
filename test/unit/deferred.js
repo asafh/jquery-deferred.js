@@ -6,7 +6,6 @@ jQuery.each = function(arr,cb) {
 	});
 };
 jQuery.isFunction = toolous.isFunction;
-jQuery.noop = function() {}; 
 
 toolous.forEach( [ "", " - new operator" ], function(_, withNew ) {
 
@@ -124,16 +123,11 @@ test( "jQuery.Deferred.then - filtering (done)", function() {
 	strictEqual( value2, 3, "second resolve value ok" );
 	strictEqual( value3, 6, "result of filter ok" );
 
-
 	jQuery.Deferred().reject().then(function() {
 		ok( false, "then should not be called on reject" );
 	});
 
-	debugger;
-	var d = jQuery.Deferred();
-	var d2 = d.resolve();
-	var d3 = d2.then( jQuery.noop );
-	d3.done(function( value ) {
+	jQuery.Deferred().resolve().then( jQuery.noop ).done(function( value ) {
 		strictEqual( value, undefined, "then done callback can return undefined/null" );
 	});
 });
