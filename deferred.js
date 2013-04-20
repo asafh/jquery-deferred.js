@@ -235,16 +235,20 @@
 
 		Deferred.prototype[listen] = function(cb) {//Add listeners
 			var callbacks = [];
-			toolous.forEach(toolous.toArray(arguments), function(_,cb) {
-				
+			toolous.forEach(toolous.toArray(arguments), function(cb) {
 				if (toolous.isArray(cb)) {
 					callbacks = callbacks.concat(cb);
 				}
 				if(toolous.isFunction(cb)) {
 					callbacks.push(cb);
 				}
-			})
-			this._fsm.on(state, cb);
+			});
+			// console.log(callbacks);
+			var me = this;
+			toolous.forEach(callbacks, function(cb) {
+				me._fsm.on(state, cb);
+			});
+			
 			return this;
 		};
 		Deferred.prototype[fire] = function() {
