@@ -252,7 +252,7 @@
 			return this;
 		};
 		Deferred.prototype[fire] = function() {
-			this[fire + "With"].apply(this, toolous.toArray(arguments, 0, this));
+			this[fire + "With"].apply(this, toolous.toArray(arguments, 0, this.promise()));
 			return this;
 		};
 		Deferred.prototype[fire + "With"] = function(context) {
@@ -333,8 +333,7 @@
 		var whenArgs = toolous.toArray(arguments),
 			resDef = new Deferred(),
 			remaining = whenArgs.length,
-			combinedState,
-			checkComplete;
+			combinedState;
 
 		if (remaining <= 1) { //Single 
 			if(!Deferred.isObservable(single)) {
@@ -350,50 +349,50 @@
 		
 		//Multiple values:
 		combinedState = {};
-		toolous.forEach(["resolved","progress"], function(name) {
+		toolous.forEach(["resolve","notify"], function(name) {
 			combinedState[name] = {
+				"name": name,
 				"contexts": new Array(remaining),
-				"values": new Array(remaining) 
+				"values": new Array(remaining),
+				mark: function(i, context, value) {
+					this.contexts[i] = context;
+					this.values[i] = value;
+				},
+				createMarkFunction: function(i) {
+					var me = this;
+					return function(value) {
+						me.mark(i, this, value);
+					};
+				},
+				publish: function() {
+					resDef[name+"With"].apply(resDef,[this.contexts].concat(this.values));
+				}
 			};
 		});
-		checkComplete = function() {
-			if (remaining === 0) {
-				var context = combinedState.resolved.contexts,
-					values = combinedState.resolved.values;
-				resDef.resolveWith.apply(resDef,[context].concat(values));
-			}
-		};
 
-		var valueResolved = function(i,context, value) { //mark the ith deferred as returned.
+		var valueReceived = function() { 
 			--remaining;
-			combinedState.resolved.values[i] = value;
-			combinedState.resolved.contexts[i] = this;
-			checkComplete();
+			if (remaining === 0) {
+				combinedState.resolve.publish();
+			}
 		};
 		
 		toolous.forEach(whenArgs, function(whenPart, i) {
 			if (Deferred.isObservable(whenPart)) {
-				whenPart.done(function(value) {
-					valueResolved(i,this,value);
-				});
-				whenPart.progress(function(value) {
-					var context = combinedState.resolved.contexts,
-						values = combinedState.resolved.values;
-					context[i] = this;
-					values[i] = value;
-					
-					resDef.notifyWith.apply(resDef,[context].concat(values));
-				});
-				whenPart.fail(function(args) {
-					resDef.rejectWith(this, args);
+				whenPart = whenPart.promise();
+				whenPart.done(combinedState.resolve.createMarkFunction(i)); //Mark the ith deferred as returned.
+				whenPart.done(valueReceived); //Then count the value received and check if done
+				
+				whenPart.progress(combinedState.notify.createMarkFunction(i)); //Notify progress
+				
+				whenPart.fail(function(error) { //Notify failure
+					resDef.rejectWith(this, error);
 				});
 			} else { //Immidiate value:
-				valueResolved(i, null, whenPart);
+				combinedState.resolve.mark(i, undefined, whenPart);
+				valueReceived();
 			}
 		});
-
-		checkComplete();
-		//zero args or all immediate
 
 		return resDef.promise();
 	};
