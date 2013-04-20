@@ -284,7 +284,7 @@
 				filter = toolous.isFunction(args[i]) && args[i];
 			me[listen](function() {
 				var filterResult = filter && filter.apply(this, arguments);
-				if (filterResult && toolous.isFunction(filterResult.promise)) {
+				if (Deferred.isObservable(filterResult)) {
 					//Case A: "These filter functions can return"..."[an] observable
 					//			object (Deferred, Promise, etc) which will pass its 
 					//			resolved / rejected status and values to the promise's callbacks"
@@ -309,7 +309,7 @@
 					
 					//If the context is the original deferred object, it wasn't specified
 					//and we need to pass the returned deferred Otherwise we pass the new context 
-					var context = (toolous.isFunction(this.promise) && this.promise() === me.promise()) ?
+					var context = (Deferred.isObservable(this) && this.promise() === me.promise()) ?
 										retDeferred.promise() : this;
 					
 					//"If the filter function used is null, or not specified, the promise
@@ -324,30 +324,33 @@
 		});
 		return retDeferred.promise();
 	};
+	
+	Deferred.isObservable = function(obj) {
+		return obj !== null && toolous.isDef(obj) && (toolous.isFunction(obj.promise));
+	};
 
-	exports.when = function() {
-		var args = toolous.toArray(arguments),
+	exports.when = function(single) {
+		var whenArgs = toolous.toArray(arguments),
 			ret = new Deferred(),
-			remaining = args.length,
+			remaining = whenArgs.length,
 			results = new Array(remaining),
-			single,
+			eventContext = null,
 			checkComplete = function() {
 				if (remaining === 0) {
-					ret.resolveWith(null, results);
+					ret.resolveWith.apply(ret,[eventContext].concat(results));
 				}
 			};
 
-		if (remaining === 1) {
-			single = args[0];
-			if (single !== null) {
-				if ( single instanceof Deferred) {
-					return single.promise();
-				}
-				if ( single instanceof Promise) {
-					return single;
-				}
+		if (remaining <= 1) { //Single 
+			if(!Deferred.isObservable(single)) {
+				//"If a single argument is passed to jQuery.when and it is not a
+				// Deferred or a Promise, it will be treated as a resolved Deferred
+				// and any doneCallbacks attached will be executed immediately"
+				single = new Deferred().resolveWith(eventContext, single);
 			}
-			// return ret.resolve(single); //This will be handled with regular logic
+			//"If a single Deferred is passed to jQuery.when, its Promise object
+			// (a subset of the Deferred methods) is returned by the method""
+			return single.promise();
 		}
 
 		ret.progress(function(i, val) {//mark the ith deferred as returned.
@@ -355,16 +358,16 @@
 			results[i] = val;
 			checkComplete();
 		});
-		toolous.forEach(args, function(arg, i) {
+		toolous.forEach(whenArgs, function(arg, i) {
 			if (toolous.isDef(arg) && arg !== null && ( arg instanceof Promise || arg instanceof Deferred)) {
 				arg.done(function(value) {
-					ret.notifyWith(null,i, value);
+					ret.notifyWith(eventContext,i, value);
 				});
 				arg.fail(function(args) {
-					ret.rejectWith(null, args);
+					ret.rejectWith(eventContext, args);
 				});
 			} else {
-				ret.notifyWith(null, i, arg);
+				ret.notifyWith(eventContext, i, arg);
 				//immidiate value
 			}
 		});

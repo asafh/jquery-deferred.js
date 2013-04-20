@@ -1,9 +1,14 @@
 module( "deferred");
 
 jQuery.each = function(arr,cb) {
-	toolous.forEach(arr, function(i,val) {
-		cb(val,i);
-	});
+	if(toolous.isArray(arr)) {
+		toolous.forEach(arr, function(i,val) {
+			cb(val,i);
+		});
+	}
+	else {
+		toolous.forEachKey(arr,cb);
+	}
 };
 jQuery.isFunction = toolous.isFunction;
 jQuery.noop = toolous.noop;
@@ -343,10 +348,11 @@ test( "jQuery.when", function() {
 		"a plain object": {}
 
 	}, function( message, value ) {
-
+		console.log(message,value);
 		ok(
 			jQuery.isFunction(
 				jQuery.when( value ).done(function( resolveValue ) {
+					console.log("a2");
 					strictEqual( this, window, "Context is the global object with " + message );
 					strictEqual( resolveValue, value, "Test the promise was resolved with " + message );
 				}).promise
@@ -359,6 +365,7 @@ test( "jQuery.when", function() {
 	ok(
 		jQuery.isFunction(
 			jQuery.when().done(function( resolveValue ) {
+				console.log("b2");
 				strictEqual( this, window, "Test the promise was resolved with window as its context" );
 				strictEqual( resolveValue, undefined, "Test the promise was resolved with no parameter" );
 			}).promise
@@ -369,6 +376,7 @@ test( "jQuery.when", function() {
 	var context = {};
 
 	jQuery.when( jQuery.Deferred().resolveWith( context ) ).done(function() {
+		console.log("c1");
 		strictEqual( this, context, "when( promise ) propagates context" );
 	});
 
@@ -380,7 +388,7 @@ test( "jQuery.when", function() {
 				this.resolve( i );
 			})
 		).done(function( value ) {
-
+			console.log("d1="+value);
 			strictEqual( value, 1, "Function executed" + ( i > 1 ? " only once" : "" ) );
 			cache = value;
 		});
