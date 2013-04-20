@@ -234,6 +234,16 @@
 		var fire = stateDefinition.fire, listen = stateDefinition.listen, query = stateDefinition.query;
 
 		Deferred.prototype[listen] = function(cb) {//Add listeners
+			var callbacks = [];
+			toolous.forEach(toolous.toArray(arguments), function(_,cb) {
+				
+				if (toolous.isArray(cb)) {
+					callbacks = callbacks.concat(cb);
+				}
+				if(toolous.isFunction(cb)) {
+					callbacks.push(cb);
+				}
+			})
 			this._fsm.on(state, cb);
 			return this;
 		};
