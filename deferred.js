@@ -137,7 +137,7 @@
 				//Cannot change.
 			}
 			this._state = state = String(state);
-			var args = toolous.toArray(arguments, 2, context); //removing state and context
+			var args = toolous.toArray(arguments, 1); //Removing state, keeping context //2, context);
 			//skipping state
 			var cbList = this._getCallbackList(state);
 			cbList.fireWith.apply(cbList, args);
@@ -239,7 +239,7 @@
 				if (toolous.isArray(cb)) {
 					callbacks = callbacks.concat(cb);
 				}
-				if(toolous.isFunction(cb)) {
+				else if(toolous.isFunction(cb)) {
 					callbacks.push(cb);
 				}
 			});
@@ -309,7 +309,7 @@
 					
 					//If the context is the original deferred object, it wasn't specified
 					//and we need to pass the returned deferred Otherwise we pass the new context 
-					var context = this.promise() === me.promise() ?
+					var context = (toolous.isFunction(this.promise) && this.promise() === me.promise()) ?
 										retDeferred.promise() : this;
 					
 					//"If the filter function used is null, or not specified, the promise
