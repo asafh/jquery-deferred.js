@@ -18,14 +18,16 @@ jQuery.trim = function( text ) {
 		"" :
 		( text + "" ).replace( rtrim, "" );
 };
+jQuery.expandedEach = jQuery.each;
 
-toolous.forEach( [ "", " - new operator" ], function(_, withNew ) {
+
+jQuery.each( [ "", " - new operator" ], function( _, withNew ) {
 
 	function createDeferred( fn ) {
-		return withNew ? new deferred.Deferred( fn ) : deferred.Deferred( fn );
+		return withNew ? new jQuery.Deferred( fn ) : jQuery.Deferred( fn );
 	}
 
-	test( "deferred.Deferred" + withNew, function() {
+	test( "jQuery.Deferred" + withNew, function() {
 
 		expect( 23 );
 
@@ -64,7 +66,7 @@ toolous.forEach( [ "", " - new operator" ], function(_, withNew ) {
 				funcPromise = defer.promise( func );
 			strictEqual( defer.promise(), promise, "promise is always the same" );
 			strictEqual( funcPromise, func, "non objects get extended" );
-			toolous.forEachKey( promise, function( key, value ) {
+			jQuery.each( promise, function( key ) {
 				if ( !jQuery.isFunction( promise[ key ] ) ) {
 					ok( false, key + " is a function (" + jQuery.type( promise[ key ] ) + ")" );
 				}
@@ -74,7 +76,8 @@ toolous.forEach( [ "", " - new operator" ], function(_, withNew ) {
 			});
 		});
 
-		jQuery.each( "resolve reject".split(" "), function( _, change ) {
+		jQuery.expandedEach = jQuery.each;
+		jQuery.expandedEach( "resolve reject".split(" "), function( _, change ) {
 			createDeferred(function( defer ) {
 				strictEqual( defer.state(), "pending", "pending after creation" );
 				var checked = 0;
@@ -102,7 +105,6 @@ test( "jQuery.Deferred - chainability", function() {
 
 	jQuery.expandedEach = jQuery.each;
 	jQuery.expandedEach( "resolve reject notify resolveWith rejectWith notifyWith done fail progress always".split(" "), function( _, method ) {
-		
 		var object = {
 			m: defer[ method ]
 		};
@@ -292,7 +294,8 @@ test( "jQuery.Deferred.then - context", function() {
 
 	expect( 7 );
 
-	var context = {};
+	var defer, piped, defer2, piped2,
+		context = {};
 
 	jQuery.Deferred().resolveWith( context, [ 2 ] ).then(function( value ) {
 		return value * 3;
@@ -307,10 +310,10 @@ test( "jQuery.Deferred.then - context", function() {
 		strictEqual( this, context, "custom context of returned deferred correctly propagated" );
 	});
 
-	var defer = jQuery.Deferred(),
-		piped = defer.then(function( value ) {
-			return value * 3;
-		});
+	defer = jQuery.Deferred();
+	piped = defer.then(function( value ) {
+		return value * 3;
+	});
 
 	defer.resolve( 2 );
 
@@ -319,8 +322,8 @@ test( "jQuery.Deferred.then - context", function() {
 		strictEqual( value, 6, "proper value received" );
 	});
 
-	var defer2 = jQuery.Deferred(),
-		piped2 = defer2.then();
+	defer2 = jQuery.Deferred();
+	piped2 = defer2.then();
 
 	defer2.resolve( 2 );
 
@@ -336,7 +339,6 @@ test( "jQuery.when", function() {
 
 	// Some other objects
 	jQuery.each({
-
 		"an empty string": "",
 		"a non-empty string": "some string",
 		"zero": 0,
@@ -346,26 +348,21 @@ test( "jQuery.when", function() {
 		"null": null,
 		"undefined": undefined,
 		"a plain object": {}
-
 	}, function( message, value ) {
-		console.log(message,value);
 		ok(
 			jQuery.isFunction(
 				jQuery.when( value ).done(function( resolveValue ) {
-					console.log("a2");
 					strictEqual( this, window, "Context is the global object with " + message );
 					strictEqual( resolveValue, value, "Test the promise was resolved with " + message );
 				}).promise
 			),
 			"Test " + message + " triggers the creation of a new Promise"
 		);
-
-	} );
+	});
 
 	ok(
 		jQuery.isFunction(
 			jQuery.when().done(function( resolveValue ) {
-				console.log("b2");
 				strictEqual( this, window, "Test the promise was resolved with window as its context" );
 				strictEqual( resolveValue, undefined, "Test the promise was resolved with no parameter" );
 			}).promise
@@ -373,14 +370,12 @@ test( "jQuery.when", function() {
 		"Test calling when with no parameter triggers the creation of a new Promise"
 	);
 
-	var context = {};
+	var cache,
+		context = {};
 
 	jQuery.when( jQuery.Deferred().resolveWith( context ) ).done(function() {
-		console.log("c1");
 		strictEqual( this, context, "when( promise ) propagates context" );
 	});
-
-	var cache;
 
 	jQuery.each([ 1, 2, 3 ], function( k, i ) {
 
@@ -388,7 +383,7 @@ test( "jQuery.when", function() {
 				this.resolve( i );
 			})
 		).done(function( value ) {
-			console.log("d1="+value);
+
 			strictEqual( value, 1, "Function executed" + ( i > 1 ? " only once" : "" ) );
 			cache = value;
 		});
@@ -437,8 +432,8 @@ test( "jQuery.when - joined", function() {
 			jQuery.when( defer1, defer2 ).done(function( a, b ) {
 				if ( shouldResolve ) {
 					deepEqual( [ a, b ], expected, code + " => resolve" );
-					strictEqual( this[ 0 ], context1, code + " => first context OK (done)" );
-					strictEqual( this[ 1 ], context2, code + " => second context OK (done)" );
+					strictEqual( this[ 0 ], context1, code + " => first context OK" );
+					strictEqual( this[ 1 ], context2, code + " => second context OK" );
 				} else {
 					ok( false,  code + " => resolve" );
 				}
@@ -450,8 +445,8 @@ test( "jQuery.when - joined", function() {
 				}
 			}).progress(function( a, b ) {
 				deepEqual( [ a, b ], expectedNotify, code + " => progress" );
-				strictEqual( this[ 0 ], expectedNotify[ 0 ] ? context1 : undefined, code + " => first context OK (progress)" );
-				strictEqual( this[ 1 ], expectedNotify[ 1 ] ? context2 : undefined, code + " => second context OK (progress)" );
+				strictEqual( this[ 0 ], expectedNotify[ 0 ] ? context1 : undefined, code + " => first context OK" );
+				strictEqual( this[ 1 ], expectedNotify[ 1 ] ? context2 : undefined, code + " => second context OK" );
 			});
 		});
 	});
