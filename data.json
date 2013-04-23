@@ -10,227 +10,54 @@
         },
         "deferred.js\\deferred.js": {
             "name": "deferred.js\\deferred.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
+            "modules": {
+                "deferred": 1
+            },
+            "classes": {
+                "CallbackList": 1,
+                "FSM": 1,
+                "Promise": 1,
+                "Deferred": 1
+            },
+            "fors": {
+                "deferred": 1
+            },
             "namespaces": {}
         }
     },
-    "modules": {},
-    "classes": {},
-    "classitems": [
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 1,
-            "description": "QUnit v1.11.0 - A JavaScript Unit Testing Framework\n\nhttp://qunitjs.com\n\nCopyright 2012 jQuery Foundation and other contributors\nReleased under the MIT license.\nhttp://jquery.org/license",
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 36,
-            "description": "Provides a normalized error string, correcting an issue\nwith IE 7 (and prior) where Error.prototype.toString is\nnot properly implemented\n\nBased on http://es5.github.com/#x15.11.4.4",
-            "params": [
-                {
-                    "name": "error",
-                    "description": "",
-                    "type": "String|Error"
-                }
-            ],
-            "return": {
-                "description": "error message",
-                "type": "String"
+    "modules": {
+        "deferred": {
+            "name": "deferred",
+            "submodules": {},
+            "classes": {
+                "CallbackList": 1,
+                "FSM": 1,
+                "Promise": 1,
+                "Deferred": 1,
+                "deferred": 1
             },
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 65,
-            "description": "Makes a clone of an object using only Array or Object as base,\nand copies over the own enumerable properties.",
-            "params": [
-                {
-                    "name": "obj",
-                    "description": "",
-                    "type": "Object"
-                }
-            ],
-            "return": {
-                "description": "New object with only the own properties (recursively).",
-                "type": "Object"
+            "fors": {
+                "deferred": 1
             },
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 497,
-            "description": "Asserts rough true-ish result.",
-            "name": "",
-            "itemtype": "method",
-            "example": [
-                " ok( \"asdfasdf\".length > 5, \"There must be at least 5 chars\" );"
-            ],
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 534,
-            "description": "Assert that the first two arguments are equal, with an optional message.\nPrints out both actual and expected values.",
-            "name": "",
-            "itemtype": "method",
-            "example": [
-                " equal( format( \"Received {0} bytes.\", 2), \"Received 2 bytes.\", \"format() replaces {0} with next argument\" );"
-            ],
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 546,
-            "name": "",
-            "itemtype": "method",
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 555,
-            "name": "",
-            "itemtype": "method",
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 565,
-            "name": "",
-            "itemtype": "method",
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 575,
-            "name": "",
-            "itemtype": "method",
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 583,
-            "name": "",
-            "itemtype": "method",
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 591,
-            "name": "",
-            "itemtype": "method",
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 599,
-            "name": "",
-            "itemtype": "method",
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 650,
-            "deprecate": "since 1.8.0\nKept assertion helpers in root for backwards compatibility.",
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 656,
-            "deprecated": true,
-            "deprecationMessage": "since 1.9.0\nKept root \"raises()\" for backwards compatibility.\n(Note that we don't introduce assert.raises).",
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 663,
-            "deprecated": true,
-            "deprecationMessage": "since 1.0.0, replaced with error pushes since 1.3.0\nKept to avoid TypeErrors for undefined methods.",
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 683,
-            "description": "Config object: Maintain internal state\nLater exposed as QUnit.config\n`config` initialized at top of scope",
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 1004,
-            "deprecated": true,
-            "deprecationMessage": ": Created for backwards compatibility with test runner that set the hook function\ninto QUnit.{hook}, instead of invoking it and passing the hook function.\nQUnit.constructor is set to the empty F() above so that we can add to it's prototype here.\nDoing this allows us to tell if the following methods have been overwritten on the actual\nQUnit object.",
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 1290,
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 1378,
-            "description": "Escape text for attribute or text content.",
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 1495,
-            "params": [
-                {
-                    "name": "elem",
-                    "description": "",
-                    "type": "HTMLElement"
-                },
-                {
-                    "name": "type",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "fn",
-                    "description": "",
-                    "type": "Function"
-                }
-            ],
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 1510,
-            "params": [
-                {
-                    "name": "elems",
-                    "description": "",
-                    "type": "Array|NodeList"
-                },
-                {
-                    "name": "type",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "fn",
-                    "description": "",
-                    "type": "Function"
-                }
-            ],
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
-            "line": 1752,
-            "description": "jsDump Copyright (c) 2008 Ariel Flesler - aflesler(at)gmail(dot)com |\nhttp://flesler.blogspot.com Licensed under BSD\n(http://www.opensource.org/licenses/bsd-license.php) Date: 5/15/2008",
-            "projectdescription": "Advanced and extensible data dumping for Javascript.",
-            "version": "1.0.0",
-            "author": "Ariel Flesler",
-            "link": "{http://flesler.blogspot.com/2008/05/jsdump-pretty-dump-of-any-javascript.html}",
-            "class": ""
-        },
-        {
+            "namespaces": {},
+            "tag": "module",
             "file": "deferred.js\\deferred.js",
-            "line": 9,
+            "line": 243
+        }
+    },
+    "classes": {
+        "CallbackList": {
+            "name": "CallbackList",
+            "shortname": "CallbackList",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "deferred",
+            "namespace": "",
+            "file": "deferred.js\\deferred.js",
+            "line": 12,
             "description": "Utility object to contain a list of callbacks that can be fired with arguments and a context. <br/>\nCallback lists can be configured to delete listeners upon file (i.e. 'once'),\nand/or to retain last fired arguments and context to send to newly add listeners (i.e. 'memory')",
             "params": [
                 {
@@ -251,48 +78,20 @@
                     ]
                 }
             ],
-            "class": ""
+            "is_constructor": 1
         },
-        {
+        "FSM": {
+            "name": "FSM",
+            "shortname": "FSM",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "deferred",
+            "namespace": "",
             "file": "deferred.js\\deferred.js",
-            "line": 25,
-            "description": "Binds cb as a listener for this CallbackList. <br/>\nIf there is a last value stored in memory (only if constructed with memory=true), cb is immediately called (and if once===true) then removed as a listener.",
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\deferred.js",
-            "line": 40,
-            "description": "Fires all listeners with the given context and any arguments given after it",
-            "params": [
-                {
-                    "name": "context",
-                    "description": "the context to fire the callbacks with",
-                    "type": "Any"
-                },
-                {
-                    "name": "args",
-                    "description": "the arguments to send all callback listeners",
-                    "type": "any..."
-                }
-            ],
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\deferred.js",
-            "line": 60,
-            "description": "Fires all listeners with the null context and any arguments given to fire.<br/>\nEquals to fireWith(nul,...)",
-            "params": [
-                {
-                    "name": "args",
-                    "description": "the arguments to send all callback listeners",
-                    "type": "any..."
-                }
-            ],
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\deferred.js",
-            "line": 71,
+            "line": 83,
             "description": "Finite State Machine (Or a flying spaghetti monster). <br/>\nA finite state machine has a state (string), and fires events when the state changes",
             "params": [
                 {
@@ -327,59 +126,20 @@
                     "description": "options.finalState: Default finalState value for states that don't have a specific finalState value in options.stateOptions. - true if the FSM cannot change states once in this one. (default=false)",
                     "type": "Boolean"
                 }
-            ],
-            "class": ""
+            ]
         },
-        {
+        "Promise": {
+            "name": "Promise",
+            "shortname": "Promise",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "deferred",
+            "namespace": "",
             "file": "deferred.js\\deferred.js",
-            "line": 98,
-            "description": "Returns the actual state options for <code>state</code>, as a merge between the default state options and the specific state options if any",
-            "params": [
-                {
-                    "name": "state",
-                    "description": "",
-                    "type": "Object"
-                }
-            ],
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\deferred.js",
-            "line": 117,
-            "description": "Adds func as a listener when the state changes to <code>state<code>",
-            "params": [
-                {
-                    "name": "state",
-                    "description": "",
-                    "type": "Object"
-                },
-                {
-                    "name": "func",
-                    "description": "",
-                    "type": "Object"
-                }
-            ],
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\deferred.js",
-            "line": 128,
-            "description": "If state is defined, attempts to change to it, firing any listeners upon change. <br/>\nTrying to change from a final state has no effect, doesn't any event listeners and returns false.",
-            "params": [
-                {
-                    "name": "state",
-                    "description": "the state name to change into. undefined has no affect and just retrieves the state.",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "the state after the change (if any change occurred) or false if trying to change from a final state."
-            },
-            "class": ""
-        },
-        {
-            "file": "deferred.js\\deferred.js",
-            "line": 183,
+            "line": 222,
             "description": "Promise exposes the only promise's set of methods from a deferred object.",
             "params": [
                 {
@@ -393,7 +153,688 @@
                     "type": "Any"
                 }
             ],
-            "class": ""
+            "is_constructor": 1
+        },
+        "Deferred": {
+            "name": "Deferred",
+            "shortname": "Deferred",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "deferred",
+            "namespace": "",
+            "file": "deferred.js\\deferred.js",
+            "line": 243
+        },
+        "deferred": {
+            "name": "deferred",
+            "shortname": "deferred",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "deferred",
+            "namespace": ""
+        }
+    },
+    "classitems": [
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 1,
+            "description": "QUnit v1.11.0 - A JavaScript Unit Testing Framework\n\nhttp://qunitjs.com\n\nCopyright 2012 jQuery Foundation and other contributors\nReleased under the MIT license.\nhttp://jquery.org/license",
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 36,
+            "description": "Provides a normalized error string, correcting an issue\nwith IE 7 (and prior) where Error.prototype.toString is\nnot properly implemented\n\nBased on http://es5.github.com/#x15.11.4.4",
+            "params": [
+                {
+                    "name": "error",
+                    "description": "",
+                    "type": "String|Error"
+                }
+            ],
+            "return": {
+                "description": "error message",
+                "type": "String"
+            },
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 65,
+            "description": "Makes a clone of an object using only Array or Object as base,\nand copies over the own enumerable properties.",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "New object with only the own properties (recursively).",
+                "type": "Object"
+            },
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 497,
+            "description": "Asserts rough true-ish result.",
+            "name": "",
+            "itemtype": "method",
+            "example": [
+                " ok( \"asdfasdf\".length > 5, \"There must be at least 5 chars\" );"
+            ],
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 534,
+            "description": "Assert that the first two arguments are equal, with an optional message.\nPrints out both actual and expected values.",
+            "name": "",
+            "itemtype": "method",
+            "example": [
+                " equal( format( \"Received {0} bytes.\", 2), \"Received 2 bytes.\", \"format() replaces {0} with next argument\" );"
+            ],
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 546,
+            "name": "",
+            "itemtype": "method",
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 555,
+            "name": "",
+            "itemtype": "method",
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 565,
+            "name": "",
+            "itemtype": "method",
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 575,
+            "name": "",
+            "itemtype": "method",
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 583,
+            "name": "",
+            "itemtype": "method",
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 591,
+            "name": "",
+            "itemtype": "method",
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 599,
+            "name": "",
+            "itemtype": "method",
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 650,
+            "deprecate": "since 1.8.0\nKept assertion helpers in root for backwards compatibility.",
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 656,
+            "deprecated": true,
+            "deprecationMessage": "since 1.9.0\nKept root \"raises()\" for backwards compatibility.\n(Note that we don't introduce assert.raises).",
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 663,
+            "deprecated": true,
+            "deprecationMessage": "since 1.0.0, replaced with error pushes since 1.3.0\nKept to avoid TypeErrors for undefined methods.",
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 683,
+            "description": "Config object: Maintain internal state\nLater exposed as QUnit.config\n`config` initialized at top of scope",
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 1004,
+            "deprecated": true,
+            "deprecationMessage": ": Created for backwards compatibility with test runner that set the hook function\ninto QUnit.{hook}, instead of invoking it and passing the hook function.\nQUnit.constructor is set to the empty F() above so that we can add to it's prototype here.\nDoing this allows us to tell if the following methods have been overwritten on the actual\nQUnit object.",
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 1290,
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 1378,
+            "description": "Escape text for attribute or text content.",
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 1495,
+            "params": [
+                {
+                    "name": "elem",
+                    "description": "",
+                    "type": "HTMLElement"
+                },
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "fn",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 1510,
+            "params": [
+                {
+                    "name": "elems",
+                    "description": "",
+                    "type": "Array|NodeList"
+                },
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "fn",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 1752,
+            "description": "jsDump Copyright (c) 2008 Ariel Flesler - aflesler(at)gmail(dot)com |\nhttp://flesler.blogspot.com Licensed under BSD\n(http://www.opensource.org/licenses/bsd-license.php) Date: 5/15/2008",
+            "projectdescription": "Advanced and extensible data dumping for Javascript.",
+            "version": "1.0.0",
+            "author": "Ariel Flesler",
+            "link": "{http://flesler.blogspot.com/2008/05/jsdump-pretty-dump-of-any-javascript.html}",
+            "class": "CallbackList"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 30,
+            "description": "Binds cb as a listener for this CallbackList. <br/>\nIf there is a last value stored in memory (only if constructed with memory=true), cb is immediately called (and if once===true) then removed as a listener.",
+            "params": [
+                {
+                    "name": "cb",
+                    "description": "the listener callback",
+                    "type": "Function"
+                }
+            ],
+            "itemtype": "method",
+            "name": "add",
+            "return": {
+                "description": "this",
+                "type": "CallbackList"
+            },
+            "class": "CallbackList",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 48,
+            "description": "Fires all listeners with the given context and any arguments given after it",
+            "params": [
+                {
+                    "name": "context",
+                    "description": "the context to fire the callbacks with",
+                    "type": "Any"
+                },
+                {
+                    "name": "args",
+                    "description": "the arguments to send all callback listeners",
+                    "type": "any..."
+                }
+            ],
+            "itemtype": "method",
+            "name": "fireWith",
+            "return": {
+                "description": "this",
+                "type": "CallbackList"
+            },
+            "class": "CallbackList",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 70,
+            "description": "Fires all listeners with the null context and any arguments given to fire.<br/>\nEquals to fireWith(null,...)",
+            "params": [
+                {
+                    "name": "args",
+                    "description": "the arguments to send all callback listeners",
+                    "type": "any..."
+                }
+            ],
+            "itemtype": "method",
+            "name": "fire",
+            "return": {
+                "description": "this",
+                "type": "CallbackList"
+            },
+            "class": "CallbackList",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 111,
+            "description": "Returns the actual state options for <code>state</code>, as a merge between the default state options and the specific state options if any",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "state name",
+                    "type": "String"
+                }
+            ],
+            "itemtype": "method",
+            "name": "_getStateOptions",
+            "return": {
+                "description": "the options for the given state",
+                "type": "Object"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "FSM",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 125,
+            "description": "returns the callback list for the given state name",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "state name",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "the CallbackList for the given state",
+                "type": "CallbackList"
+            },
+            "itemtype": "method",
+            "name": "_getCallbackList",
+            "access": "private",
+            "tagname": "",
+            "class": "FSM",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 140,
+            "description": "Adds func as a listener when the state changes to <code>state<code>",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "func",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "itemtype": "method",
+            "name": "on",
+            "class": "FSM",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 152,
+            "description": "If state is defined, attempts to change to it, firing any listeners upon change. <br/>\nTrying to change from a final state has no effect, doesn't any event listeners and returns false.",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "the state name to change into. undefined has no affect and just retrieves the state.",
+                    "type": "String"
+                },
+                {
+                    "name": "context",
+                    "description": "the context to send to the event listeners.",
+                    "type": "Any"
+                },
+                {
+                    "name": "arguments",
+                    "description": "the arguments to pass forward to the event listeners",
+                    "type": "any..."
+                }
+            ],
+            "return": {
+                "description": "false if trying to change a final state, else the state after the method invocation"
+            },
+            "itemtype": "method",
+            "name": "state",
+            "class": "FSM",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 186,
+            "description": "see {{#crossLink \"Deferred/state:method\"}}{{/crossLink}}",
+            "itemtype": "method",
+            "name": "state",
+            "class": "Promise",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 191,
+            "description": "see {{#crossLink \"Deferred/then:method\"}}{{/crossLink}}",
+            "itemtype": "method",
+            "name": "then",
+            "class": "Promise",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 196,
+            "description": "see {{#crossLink \"Deferred/done:method\"}}{{/crossLink}}",
+            "itemtype": "method",
+            "name": "done",
+            "class": "Promise",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 201,
+            "description": "see {{#crossLink \"Deferred/fail:method\"}}{{/crossLink}}",
+            "itemtype": "method",
+            "name": "fail",
+            "class": "Promise",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 206,
+            "description": "see {{#crossLink \"Deferred/always:method\"}}{{/crossLink}}",
+            "itemtype": "method",
+            "name": "always",
+            "class": "Promise",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 211,
+            "description": "see {{#crossLink \"Deferred/pipe:method\"}}{{/crossLink}}",
+            "itemtype": "method",
+            "name": "pipe",
+            "class": "Promise",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 216,
+            "description": "see {{#crossLink \"Deferred/progress:method\"}}{{/crossLink}}",
+            "itemtype": "method",
+            "name": "progress",
+            "class": "Promise",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 248,
+            "description": "Returns true if this deferred is in the 'resolved' state",
+            "itemtype": "method",
+            "name": "isResolved",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Deferred",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 253,
+            "description": "Same as resolveWith(null, arguments...)",
+            "itemtype": "method",
+            "name": "resolve",
+            "return": {
+                "description": "this",
+                "type": "Deferred"
+            },
+            "class": "Deferred",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 258,
+            "description": "If currently pending, moves to the resolved state and fires any listeners bound on it",
+            "itemtype": "method",
+            "name": "resolveWith",
+            "params": [
+                {
+                    "name": "context",
+                    "description": "the context to fire the lisnters with",
+                    "type": "Any"
+                },
+                {
+                    "name": "arguments",
+                    "description": "the rest of the arguments.",
+                    "type": "any..."
+                }
+            ],
+            "return": {
+                "description": "this",
+                "type": "Deferred"
+            },
+            "class": "Deferred",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 274,
+            "description": "Returns true if this deferred is in the 'rejected' state",
+            "itemtype": "method",
+            "name": "isRejected",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Deferred",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 279,
+            "description": "Same as rejectWith(null, arguments...)",
+            "itemtype": "method",
+            "name": "reject",
+            "return": {
+                "description": "this",
+                "type": "Deferred"
+            },
+            "class": "Deferred",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 284,
+            "description": "If currently pending, moves to the rejected state and fires any listeners bound on it",
+            "itemtype": "method",
+            "name": "rejectWith",
+            "params": [
+                {
+                    "name": "context",
+                    "description": "the context to fire the lisnters with",
+                    "type": "Any"
+                },
+                {
+                    "name": "arguments",
+                    "description": "the rest of the arguments.",
+                    "type": "any..."
+                }
+            ],
+            "return": {
+                "description": "this",
+                "type": "Deferred"
+            },
+            "class": "Deferred",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 300,
+            "description": "Returns true if this deferred is in the 'rejected' state",
+            "itemtype": "method",
+            "name": "isRejected",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Deferred",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 305,
+            "description": "Same as rejectWith(null, arguments...)",
+            "itemtype": "method",
+            "name": "reject",
+            "return": {
+                "description": "this",
+                "type": "Deferred"
+            },
+            "class": "Deferred",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 310,
+            "description": "If currently pending, moves to the rejected state and fires any listeners bound on it",
+            "itemtype": "method",
+            "name": "rejectWith",
+            "params": [
+                {
+                    "name": "context",
+                    "description": "the context to fire the lisnters with",
+                    "type": "Any"
+                },
+                {
+                    "name": "arguments",
+                    "description": "the rest of the arguments.",
+                    "type": "any..."
+                }
+            ],
+            "return": {
+                "description": "this",
+                "type": "Deferred"
+            },
+            "class": "Deferred",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 326,
+            "description": "Returns a new empty deferred instance",
+            "params": [
+                {
+                    "name": "init",
+                    "description": "a callback to be called once this deferred is initialized",
+                    "type": "Function(Deferred)"
+                }
+            ],
+            "is_constructor": 1,
+            "class": "Deferred",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 400,
+            "description": "Bind a listener to be called on done or rejected",
+            "itemtype": "method",
+            "name": "always",
+            "class": "Deferred",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 407,
+            "description": "Returns the current state 'pending', 'resolved' or 'rejected'",
+            "return": {
+                "description": "current state",
+                "type": "String"
+            },
+            "class": "Deferred",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 414,
+            "description": "See http://api.jquery.com/deferred.then/",
+            "itemtype": "method",
+            "name": "then",
+            "class": "Deferred",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 470,
+            "description": "returns true if and only if the given object is a deferred or promise instance (has the .promise method)",
+            "static": 1,
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "itemtype": "method",
+            "name": "isObservable",
+            "class": "Deferred",
+            "module": "deferred"
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 479,
+            "description": "see http://api.jquery.com/jQuery.when/",
+            "itemtype": "method",
+            "name": "when",
+            "static": 1,
+            "class": "deferred",
+            "module": "deferred"
         }
     ],
     "warnings": [
@@ -538,40 +979,12 @@
             "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:1752"
         },
         {
-            "message": "Missing item type\nUtility object to contain a list of callbacks that can be fired with arguments and a context. <br/>\nCallback lists can be configured to delete listeners upon file (i.e. 'once'),\nand/or to retain last fired arguments and context to send to newly add listeners (i.e. 'memory')",
-            "line": " deferred.js\\deferred.js:9"
+            "message": "Missing item type\nReturns a new empty deferred instance",
+            "line": " deferred.js\\deferred.js:326"
         },
         {
-            "message": "Missing item type\nBinds cb as a listener for this CallbackList. <br/>\nIf there is a last value stored in memory (only if constructed with memory=true), cb is immediately called (and if once===true) then removed as a listener.",
-            "line": " deferred.js\\deferred.js:25"
-        },
-        {
-            "message": "Missing item type\nFires all listeners with the given context and any arguments given after it",
-            "line": " deferred.js\\deferred.js:40"
-        },
-        {
-            "message": "Missing item type\nFires all listeners with the null context and any arguments given to fire.<br/>\nEquals to fireWith(nul,...)",
-            "line": " deferred.js\\deferred.js:60"
-        },
-        {
-            "message": "Missing item type\nFinite State Machine (Or a flying spaghetti monster). <br/>\nA finite state machine has a state (string), and fires events when the state changes",
-            "line": " deferred.js\\deferred.js:71"
-        },
-        {
-            "message": "Missing item type\nReturns the actual state options for <code>state</code>, as a merge between the default state options and the specific state options if any",
-            "line": " deferred.js\\deferred.js:98"
-        },
-        {
-            "message": "Missing item type\nAdds func as a listener when the state changes to <code>state<code>",
-            "line": " deferred.js\\deferred.js:117"
-        },
-        {
-            "message": "Missing item type\nIf state is defined, attempts to change to it, firing any listeners upon change. <br/>\nTrying to change from a final state has no effect, doesn't any event listeners and returns false.",
-            "line": " deferred.js\\deferred.js:128"
-        },
-        {
-            "message": "Missing item type\nPromise exposes the only promise's set of methods from a deferred object.",
-            "line": " deferred.js\\deferred.js:183"
+            "message": "Missing item type\nReturns the current state 'pending', 'resolved' or 'rejected'",
+            "line": " deferred.js\\deferred.js:407"
         }
     ]
 }

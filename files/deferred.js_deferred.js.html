@@ -41,9 +41,21 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
+                <li><a href="..&#x2F;classes/CallbackList.html">CallbackList</a></li>
+            
+                <li><a href="..&#x2F;classes/Deferred.html">Deferred</a></li>
+            
+                <li><a href="..&#x2F;classes/deferred.html">deferred</a></li>
+            
+                <li><a href="..&#x2F;classes/FSM.html">FSM</a></li>
+            
+                <li><a href="..&#x2F;classes/Promise.html">Promise</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
+            
+                <li><a href="..&#x2F;modules/deferred.html">deferred</a></li>
             
             </ul>
         </div>
@@ -84,6 +96,9 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+&#x2F;**
+ * @module deferred 
+ *&#x2F;
 (function(exports, globals) {
 	&quot;use strict&quot;;
 	var require = typeof require !== &quot;undefined&quot; ? require : function(p) {
@@ -99,6 +114,8 @@
 	 * @param {Object} options optional callback options
 	 * @param {boolean} options.once  true if to remove listeners after firing. (default=false)
 	 * @param {boolean} options.memory true if to keep the last value (and context) in memory and fire on new listeners (default=true)
+	 * @class CallbackList
+	 * @constructor
 	 *&#x2F;
 	function CallbackList(options) {
 		this._callbacks = [];
@@ -111,6 +128,9 @@
 	&#x2F;**
 	 * Binds cb as a listener for this CallbackList. &lt;br&#x2F;&gt;
 	 * If there is a last value stored in memory (only if constructed with memory=true), cb is immediately called (and if once===true) then removed as a listener.
+	 * @param {function} cb the listener callback
+	 * @method add
+	 * @return {CallbackList} this
 	 *&#x2F;
 	CallbackList.prototype.add = function(cb) {
 		this._callbacks.push(cb);
@@ -127,6 +147,8 @@
 	 * Fires all listeners with the given context and any arguments given after it
 	 * @param {any} context the context to fire the callbacks with
 	 * @param {any...} args the arguments to send all callback listeners
+	 * @method fireWith
+	 * @return {CallbackList} this
 	 *&#x2F;
 	CallbackList.prototype.fireWith = function(context) {
 		var args = toolous.toArray(arguments, 1);
@@ -145,8 +167,10 @@
 	};
 	&#x2F;**
 	 * Fires all listeners with the null context and any arguments given to fire.&lt;br&#x2F;&gt;
-	 * Equals to fireWith(nul,...)
+	 * Equals to fireWith(null,...)
 	 * @param {any...} args the arguments to send all callback listeners
+	 * @method fire
+	 * @return {CallbackList} this
 	 *&#x2F;
 	CallbackList.prototype.fire = function() {&#x2F;&#x2F;Fire without context
 		return this.fireWith.apply(this, toolous.toArray(arguments, 0, null));
@@ -163,6 +187,7 @@
 	 * @param {boolean} options.once Default once value for states that don&#x27;t have a specific once value in options.stateOptions.  true if to remove listeners after firing. (default=true)
 	 * @param {boolean} options.memory Default memory value for states that don&#x27;t have a specific memory value in options.stateOptions.  true if to keep the last value (and context) in memory and fire on new listeners (default=true)
 	 * @param {boolean}: options.finalState: Default finalState value for states that don&#x27;t have a specific finalState value in options.stateOptions. - true if the FSM cannot change states once in this one. (default=false)
+	 * @class FSM
 	 *&#x2F;
 	function FSM(options) {
 		options = toolous.merge({
@@ -183,7 +208,10 @@
 
 	&#x2F;**
 	 * Returns the actual state options for &lt;code&gt;state&lt;&#x2F;code&gt;, as a merge between the default state options and the specific state options if any
-	 * @param {Object} state
+	 * @param {String} state state name
+	 * @method _getStateOptions
+	 * @return {Object} the options for the given state 
+	 * @private
 	 *&#x2F;
 	FSM.prototype._getStateOptions = function(state) {
 		var actual = this._actualStateOpts[state];
@@ -192,6 +220,13 @@
 		}
 		return actual;
 	};
+	&#x2F;**
+	 * returns the callback list for the given state name
+	 * @param {String} state state name
+	 * @return {CallbackList} the CallbackList for the given state
+	 * @method  _getCallbackList
+	 * @private
+	 *&#x2F;
 	FSM.prototype._getCallbackList = function(state) {
 		var cbList = this._listeners[state];
 		if (!cbList) {&#x2F;&#x2F;create CallbackList
@@ -204,6 +239,7 @@
 	 * Adds func as a listener when the state changes to &lt;code&gt;state&lt;code&gt;
 	 * @param {Object} state
 	 * @param {Object} func
+	 * @method on
 	 *&#x2F;
 	FSM.prototype.on = function(state, func) {
 		state = String(state);
@@ -215,7 +251,11 @@
 	 * If state is defined, attempts to change to it, firing any listeners upon change. &lt;br&#x2F;&gt;
 	 * Trying to change from a final state has no effect, doesn&#x27;t any event listeners and returns false.
 	 * @param {string} state the state name to change into. undefined has no affect and just retrieves the state.
+	 * @param {any} context the context to send to the event listeners.
+	 * @param {any...} arguments the arguments to pass forward to the event listeners
 	 * @return the state after the change (if any change occurred) or false if trying to change from a final state.
+	 * @method state
+	 * @return false if trying to change a final state, else the state after the method invocation 
 	 *&#x2F;
 	FSM.prototype.state = function(state,context) {
 		if (toolous.isDef(state)) {&#x2F;&#x2F;change
@@ -237,39 +277,52 @@
 	&#x2F;&#x2F;======================= END Finite State Machine =======================
 
 	&#x2F;&#x2F;=============================== Deferred ===============================
-	var PROMISE_FUNCTIONS = [&quot;state&quot;, &quot;then&quot;, &quot;done&quot;, &quot;fail&quot;, &quot;always&quot;, &quot;pipe&quot;, &quot;progress&quot;];
-	var STATES = {
-		resolved : {
-			fire : &quot;resolve&quot;,
-			listen : &quot;done&quot;,
-			thenIndex : 0,
-			memory : true,
-			once : true,
-			query : &quot;isResolved&quot;,
-			finalState : true
-		},
-		rejected : {
-			fire : &quot;reject&quot;,
-			listen : &quot;fail&quot;,
-			thenIndex : 1,
-			memory : true,
-			once : true,
-			query : &quot;isRejected&quot;,
-			finalState : true
-		},
-		pending : {
-			fire : &quot;notify&quot;,
-			listen : &quot;progress&quot;,
-			thenIndex : 2,
-			memory : true,
-			once : false
-		}
-	};
-
+	&#x2F;**
+	 * @class Promise 
+	 *&#x2F;
+	var PROMISE_FUNCTIONS = [
+	&#x2F;**
+	 * see {{#crossLink &quot;Deferred&#x2F;state:method&quot;}}{{&#x2F;crossLink}}
+	 * @method state
+	 *&#x2F;
+		&quot;state&quot;,
+	&#x2F;**
+	 * see {{#crossLink &quot;Deferred&#x2F;then:method&quot;}}{{&#x2F;crossLink}}
+	 * @method then
+	 *&#x2F;
+		&quot;then&quot;,
+		&#x2F;**
+	 * see {{#crossLink &quot;Deferred&#x2F;done:method&quot;}}{{&#x2F;crossLink}}
+	 * @method done
+	 *&#x2F;
+		&quot;done&quot;,
+		&#x2F;**
+	 * see {{#crossLink &quot;Deferred&#x2F;fail:method&quot;}}{{&#x2F;crossLink}}
+	 * @method fail
+	 *&#x2F;
+		&quot;fail&quot;,
+		&#x2F;**
+	 * see {{#crossLink &quot;Deferred&#x2F;always:method&quot;}}{{&#x2F;crossLink}}
+	 * @method always
+	 *&#x2F;
+		&quot;always&quot;,
+		&#x2F;**
+	 * see {{#crossLink &quot;Deferred&#x2F;pipe:method&quot;}}{{&#x2F;crossLink}}
+	 * @method pipe
+	 *&#x2F;
+		&quot;pipe&quot;,
+		&#x2F;**
+	 * see {{#crossLink &quot;Deferred&#x2F;progress:method&quot;}}{{&#x2F;crossLink}}
+	 * @method progress
+	 *&#x2F;
+		&quot;progress&quot;];
+	
 	&#x2F;**
 	 * Promise exposes the only promise&#x27;s set of methods from a deferred object.
 	 * @param {Object} deferred the deferred object of which methods to expose
 	 * @param {any} this either a newly created object (when used with new), or an object to copy all of the promise methods to.
+	 * @class Promise
+	 * @constructor
 	 *&#x2F;
 	function Promise(deferred) {
 		var promise = this;
@@ -285,12 +338,98 @@
 		};
 	}
 	
-	var id = 0;
+	&#x2F;**
+	 * @class Deferred 
+	 *&#x2F;
+	var STATES = {
+		resolved : {
+			&#x2F;**
+			 * Returns true if this deferred is in the &#x27;resolved&#x27; state
+			 * @method isResolved 
+			 * @return {boolean}
+			 *&#x2F;
+			&#x2F;**
+			 * Same as resolveWith(null, arguments...)
+			 * @method resolve 
+			 * @return {Deferred} this
+			 *&#x2F;
+			&#x2F;**
+			 * If currently pending, moves to the resolved state and fires any listeners bound on it
+			 * @method resolveWith
+			 * @param {any} context the context to fire the lisnters with
+			 * @param {any...} arguments the rest of the arguments.
+			 * @return {Deferred} this
+			 *&#x2F;
+			fire : &quot;resolve&quot;,
+			listen : &quot;done&quot;,
+			thenIndex : 0,
+			memory : true,
+			once : true,
+			query : &quot;isResolved&quot;,
+			finalState : true
+		},
+		rejected : {
+			&#x2F;**
+			 * Returns true if this deferred is in the &#x27;rejected&#x27; state
+			 * @method isRejected
+			 * @return {boolean}
+			 *&#x2F;
+			&#x2F;**
+			 * Same as rejectWith(null, arguments...)
+			 * @method reject
+			 * @return {Deferred} this 
+			 *&#x2F;
+			&#x2F;**
+			 * If currently pending, moves to the rejected state and fires any listeners bound on it
+			 * @method rejectWith
+			 * @param {any} context the context to fire the lisnters with
+			 * @param {any...} arguments the rest of the arguments.
+			 * @return {Deferred} this
+			 *&#x2F;
+			fire : &quot;reject&quot;,
+			listen : &quot;fail&quot;,
+			thenIndex : 1,
+			memory : true,
+			once : true,
+			query : &quot;isRejected&quot;,
+			finalState : true
+		},
+		pending : {
+			&#x2F;**
+			 * Returns true if this deferred is in the &#x27;rejected&#x27; state
+			 * @method isRejected
+			 * @return {boolean}
+			 *&#x2F;
+			&#x2F;**
+			 * Same as rejectWith(null, arguments...)
+			 * @method reject 
+			 * @return {Deferred} this
+			 *&#x2F;
+			&#x2F;**
+			 * If currently pending, moves to the rejected state and fires any listeners bound on it
+			 * @method rejectWith
+			 * @param {any} context the context to fire the lisnters with
+			 * @param {any...} arguments the rest of the arguments.
+			 * @return {Deferred} this
+			 *&#x2F;
+			fire : &quot;notify&quot;,
+			listen : &quot;progress&quot;,
+			thenIndex : 2,
+			memory : true,
+			once : false
+		}
+	};
+
+
+	&#x2F;**
+	 * Returns a new empty deferred instance
+	 * @param {function(Deferred)} init a callback to be called once this deferred is initialized
+	 * @constructor
+	 *&#x2F;	
 	function Deferred(init) {
 		if (!(this instanceof Deferred)) {&#x2F;&#x2F;must be called with new.
 			return new Deferred(init);
 		}
-		this.id = ++id;
 		var deferred = this;
 		this._fsm = new FSM({
 			state : &quot;pending&quot;,
@@ -355,13 +494,25 @@
 			};
 		}
 	});
-
+	
+	&#x2F;**
+	 * Bind a listener to be called on done or rejected
+	 * @method always 
+	 *&#x2F;
 	Deferred.prototype.always = function() {
 		return this.done.apply(this, arguments).fail.apply(this, arguments);
 	};
+	&#x2F;**
+	 * Returns the current state &#x27;pending&#x27;, &#x27;resolved&#x27; or &#x27;rejected&#x27;
+	 * @return {String} current state 
+	 *&#x2F;
 	Deferred.prototype.state = function() {
 		return this._fsm.state();
 	};
+	&#x2F;**
+	 * See http:&#x2F;&#x2F;api.jquery.com&#x2F;deferred.then&#x2F;
+	 * @method then 
+	 *&#x2F;
 	Deferred.prototype.then = function(&#x2F;*doneFilter, failFilter, progressFilter*&#x2F;) {&#x2F;&#x2F;Took some inspiration from jQuery&#x27;s implementation at https:&#x2F;&#x2F;github.com&#x2F;jquery&#x2F;jquery&#x2F;blob&#x2F;master&#x2F;src&#x2F;deferred.js
 		var args = arguments,
 			retDeferred = new Deferred(), &#x2F;&#x2F;&quot;returns a new promise that can filter the status and values of a deferred through a function&quot;
@@ -414,10 +565,21 @@
 		return retDeferred.promise();
 	};
 	
+	&#x2F;**
+	 * returns true if and only if the given object is a deferred or promise instance (has the .promise method)
+	 * @static 
+  	 * @param {Object} obj
+  	 * @method isObservable
+	 *&#x2F;
 	Deferred.isObservable = function(obj) {
 		return obj !== null &amp;&amp; toolous.isDef(obj) &amp;&amp; (toolous.isFunction(obj.promise));
 	};
-
+	&#x2F;**
+	 * see http:&#x2F;&#x2F;api.jquery.com&#x2F;jQuery.when&#x2F;
+ 	 * @method when
+ 	 * @for deferred
+ 	 * @static
+	 *&#x2F;
 	exports.when = function(single) {
 		var whenArgs = toolous.toArray(arguments),
 			resDef = new Deferred(),
