@@ -1,26 +1,5 @@
 module( "deferred");
 
-jQuery.each = function(arr,cb) {
-	if(toolous.isArray(arr)) {
-		toolous.forEach(arr, function(i,val) {
-			cb(val,i);
-		});
-	}
-	else {
-		toolous.forEachKey(arr,cb);
-	}
-};
-jQuery.isFunction = toolous.isFunction;
-jQuery.noop = toolous.noop;
-jQuery.trim = function( text ) {
-	var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
-	return text == null ?
-		"" :
-		( text + "" ).replace( rtrim, "" );
-};
-jQuery.expandedEach = jQuery.each;
-
-
 jQuery.each( [ "", " - new operator" ], function( _, withNew ) {
 
 	function createDeferred( fn ) {
