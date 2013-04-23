@@ -29,7 +29,10 @@
 	CallbackList.prototype.add = function(cb) {
 		this._callbacks.push(cb);
 		if (this.firedArgs) {//memory, firedArgs is always trueish if exists (since it is an array)
-			this.fireWith.apply(this, [this.firedContext].concat(this.firedArgs));
+			cb.apply(this.firedContext, this.firedArgs);
+			if (this.options.once) {//clean listeners
+				this._callbacks = [];
+			}
 			//also removes the listener if once===true
 		}
 		return this;
@@ -333,7 +336,7 @@
 		var whenArgs = toolous.toArray(arguments),
 			resDef = new Deferred(),
 			remaining = whenArgs.length,
-			combinedState;
+			combinedState = {};
 
 		if (remaining <= 1) { //Single 
 			if(!Deferred.isObservable(single)) {
@@ -348,7 +351,6 @@
 		}
 		
 		//Multiple values:
-		combinedState = {};
 		toolous.forEach(["resolve","notify"], function(name) {
 			combinedState[name] = {
 				"name": name,
@@ -380,10 +382,12 @@
 		toolous.forEach(whenArgs, function(whenPart, i) {
 			if (Deferred.isObservable(whenPart)) {
 				whenPart = whenPart.promise();
-				whenPart.done(combinedState.resolve.createMarkFunction(i)); //Mark the ith deferred as returned.
+
+				whenPart.done(combinedState.resolve.createMarkFunction(i));  //Mark the ith deferred as returned.
 				whenPart.done(valueReceived); //Then count the value received and check if done
 				
-				whenPart.progress(combinedState.notify.createMarkFunction(i)); //Notify progress
+				whenPart.progress(combinedState.notify.createMarkFunction(i)); //Mark progress
+				whenPart.progress(toolous.bind("publish",combinedState.notify)); //Notify progress
 				
 				whenPart.fail(function(error) { //Notify failure
 					resDef.rejectWith(this, error);
