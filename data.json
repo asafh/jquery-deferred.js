@@ -1,0 +1,577 @@
+{
+    "project": {},
+    "files": {
+        "deferred.js\\test\\qunit\\qunit\\qunit.js": {
+            "name": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "deferred.js\\deferred.js": {
+            "name": "deferred.js\\deferred.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {},
+    "classitems": [
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 1,
+            "description": "QUnit v1.11.0 - A JavaScript Unit Testing Framework\n\nhttp://qunitjs.com\n\nCopyright 2012 jQuery Foundation and other contributors\nReleased under the MIT license.\nhttp://jquery.org/license",
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 36,
+            "description": "Provides a normalized error string, correcting an issue\nwith IE 7 (and prior) where Error.prototype.toString is\nnot properly implemented\n\nBased on http://es5.github.com/#x15.11.4.4",
+            "params": [
+                {
+                    "name": "error",
+                    "description": "",
+                    "type": "String|Error"
+                }
+            ],
+            "return": {
+                "description": "error message",
+                "type": "String"
+            },
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 65,
+            "description": "Makes a clone of an object using only Array or Object as base,\nand copies over the own enumerable properties.",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "New object with only the own properties (recursively).",
+                "type": "Object"
+            },
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 497,
+            "description": "Asserts rough true-ish result.",
+            "name": "",
+            "itemtype": "method",
+            "example": [
+                " ok( \"asdfasdf\".length > 5, \"There must be at least 5 chars\" );"
+            ],
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 534,
+            "description": "Assert that the first two arguments are equal, with an optional message.\nPrints out both actual and expected values.",
+            "name": "",
+            "itemtype": "method",
+            "example": [
+                " equal( format( \"Received {0} bytes.\", 2), \"Received 2 bytes.\", \"format() replaces {0} with next argument\" );"
+            ],
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 546,
+            "name": "",
+            "itemtype": "method",
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 555,
+            "name": "",
+            "itemtype": "method",
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 565,
+            "name": "",
+            "itemtype": "method",
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 575,
+            "name": "",
+            "itemtype": "method",
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 583,
+            "name": "",
+            "itemtype": "method",
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 591,
+            "name": "",
+            "itemtype": "method",
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 599,
+            "name": "",
+            "itemtype": "method",
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 650,
+            "deprecate": "since 1.8.0\nKept assertion helpers in root for backwards compatibility.",
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 656,
+            "deprecated": true,
+            "deprecationMessage": "since 1.9.0\nKept root \"raises()\" for backwards compatibility.\n(Note that we don't introduce assert.raises).",
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 663,
+            "deprecated": true,
+            "deprecationMessage": "since 1.0.0, replaced with error pushes since 1.3.0\nKept to avoid TypeErrors for undefined methods.",
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 683,
+            "description": "Config object: Maintain internal state\nLater exposed as QUnit.config\n`config` initialized at top of scope",
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 1004,
+            "deprecated": true,
+            "deprecationMessage": ": Created for backwards compatibility with test runner that set the hook function\ninto QUnit.{hook}, instead of invoking it and passing the hook function.\nQUnit.constructor is set to the empty F() above so that we can add to it's prototype here.\nDoing this allows us to tell if the following methods have been overwritten on the actual\nQUnit object.",
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 1290,
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 1378,
+            "description": "Escape text for attribute or text content.",
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 1495,
+            "params": [
+                {
+                    "name": "elem",
+                    "description": "",
+                    "type": "HTMLElement"
+                },
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "fn",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 1510,
+            "params": [
+                {
+                    "name": "elems",
+                    "description": "",
+                    "type": "Array|NodeList"
+                },
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "fn",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\test\\qunit\\qunit\\qunit.js",
+            "line": 1752,
+            "description": "jsDump Copyright (c) 2008 Ariel Flesler - aflesler(at)gmail(dot)com |\nhttp://flesler.blogspot.com Licensed under BSD\n(http://www.opensource.org/licenses/bsd-license.php) Date: 5/15/2008",
+            "projectdescription": "Advanced and extensible data dumping for Javascript.",
+            "version": "1.0.0",
+            "author": "Ariel Flesler",
+            "link": "{http://flesler.blogspot.com/2008/05/jsdump-pretty-dump-of-any-javascript.html}",
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 9,
+            "description": "Utility object to contain a list of callbacks that can be fired with arguments and a context. <br/>\nCallback lists can be configured to delete listeners upon file (i.e. 'once'),\nand/or to retain last fired arguments and context to send to newly add listeners (i.e. 'memory')",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "optional callback options",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "once",
+                            "description": "true if to remove listeners after firing. (default=false)",
+                            "type": "Boolean"
+                        },
+                        {
+                            "name": "memory",
+                            "description": "true if to keep the last value (and context) in memory and fire on new listeners (default=true)",
+                            "type": "Boolean"
+                        }
+                    ]
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 25,
+            "description": "Binds cb as a listener for this CallbackList. <br/>\nIf there is a last value stored in memory (only if constructed with memory=true), cb is immediately called (and if once===true) then removed as a listener.",
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 40,
+            "description": "Fires all listeners with the given context and any arguments given after it",
+            "params": [
+                {
+                    "name": "context",
+                    "description": "the context to fire the callbacks with",
+                    "type": "Any"
+                },
+                {
+                    "name": "args",
+                    "description": "the arguments to send all callback listeners",
+                    "type": "any..."
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 60,
+            "description": "Fires all listeners with the null context and any arguments given to fire.<br/>\nEquals to fireWith(nul,...)",
+            "params": [
+                {
+                    "name": "args",
+                    "description": "the arguments to send all callback listeners",
+                    "type": "any..."
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 71,
+            "description": "Finite State Machine (Or a flying spaghetti monster). <br/>\nA finite state machine has a state (string), and fires events when the state changes",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "Optional options object of the following format:",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "state",
+                            "description": "the initial state name. (default=\"initial\")",
+                            "type": "String"
+                        },
+                        {
+                            "name": "stateOptions",
+                            "description": "map between state names to their specific options. of the form {stateName: {once:bool, memory: bool, finalState: bool}}",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "once",
+                            "description": "Default once value for states that don't have a specific once value in options.stateOptions.  true if to remove listeners after firing. (default=true)",
+                            "type": "Boolean"
+                        },
+                        {
+                            "name": "memory",
+                            "description": "Default memory value for states that don't have a specific memory value in options.stateOptions.  true if to keep the last value (and context) in memory and fire on new listeners (default=true)",
+                            "type": "Boolean"
+                        }
+                    ]
+                },
+                {
+                    "name": ":",
+                    "description": "options.finalState: Default finalState value for states that don't have a specific finalState value in options.stateOptions. - true if the FSM cannot change states once in this one. (default=false)",
+                    "type": "Boolean"
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 98,
+            "description": "Returns the actual state options for <code>state</code>, as a merge between the default state options and the specific state options if any",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 117,
+            "description": "Adds func as a listener when the state changes to <code>state<code>",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "func",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 128,
+            "description": "If state is defined, attempts to change to it, firing any listeners upon change. <br/>\nTrying to change from a final state has no effect, doesn't any event listeners and returns false.",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "the state name to change into. undefined has no affect and just retrieves the state.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "the state after the change (if any change occurred) or false if trying to change from a final state."
+            },
+            "class": ""
+        },
+        {
+            "file": "deferred.js\\deferred.js",
+            "line": 183,
+            "description": "Promise exposes the only promise's set of methods from a deferred object.",
+            "params": [
+                {
+                    "name": "deferred",
+                    "description": "the deferred object of which methods to expose",
+                    "type": "Object"
+                },
+                {
+                    "name": "this",
+                    "description": "either a newly created object (when used with new), or an object to copy all of the promise methods to.",
+                    "type": "Any"
+                }
+            ],
+            "class": ""
+        }
+    ],
+    "warnings": [
+        {
+            "message": "unknown tag: name",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:497"
+        },
+        {
+            "message": "replacing incorrect tag: function with method",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:497"
+        },
+        {
+            "message": "unknown tag: name",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:534"
+        },
+        {
+            "message": "replacing incorrect tag: function with method",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:534"
+        },
+        {
+            "message": "unknown tag: name",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:546"
+        },
+        {
+            "message": "replacing incorrect tag: function with method",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:546"
+        },
+        {
+            "message": "unknown tag: name",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:555"
+        },
+        {
+            "message": "replacing incorrect tag: function with method",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:555"
+        },
+        {
+            "message": "unknown tag: name",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:565"
+        },
+        {
+            "message": "replacing incorrect tag: function with method",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:565"
+        },
+        {
+            "message": "unknown tag: name",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:575"
+        },
+        {
+            "message": "replacing incorrect tag: function with method",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:575"
+        },
+        {
+            "message": "unknown tag: name",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:583"
+        },
+        {
+            "message": "replacing incorrect tag: function with method",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:583"
+        },
+        {
+            "message": "unknown tag: name",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:591"
+        },
+        {
+            "message": "replacing incorrect tag: function with method",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:591"
+        },
+        {
+            "message": "unknown tag: name",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:599"
+        },
+        {
+            "message": "replacing incorrect tag: function with method",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:599"
+        },
+        {
+            "message": "unknown tag: deprecate",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:650"
+        },
+        {
+            "message": "unknown tag: projectdescription",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:1752"
+        },
+        {
+            "message": "unknown tag: version",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:1752"
+        },
+        {
+            "message": "unknown tag: link",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:1752"
+        },
+        {
+            "message": "Missing item type\nQUnit v1.11.0 - A JavaScript Unit Testing Framework\n\nhttp://qunitjs.com\n\nCopyright 2012 jQuery Foundation and other contributors\nReleased under the MIT license.\nhttp://jquery.org/license",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:1"
+        },
+        {
+            "message": "Missing item type\nProvides a normalized error string, correcting an issue\nwith IE 7 (and prior) where Error.prototype.toString is\nnot properly implemented\n\nBased on http://es5.github.com/#x15.11.4.4",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:36"
+        },
+        {
+            "message": "Missing item type\nMakes a clone of an object using only Array or Object as base,\nand copies over the own enumerable properties.",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:65"
+        },
+        {
+            "message": "Missing item type",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:650"
+        },
+        {
+            "message": "Missing item type",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:656"
+        },
+        {
+            "message": "Missing item type",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:663"
+        },
+        {
+            "message": "Missing item type\nConfig object: Maintain internal state\nLater exposed as QUnit.config\n`config` initialized at top of scope",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:683"
+        },
+        {
+            "message": "Missing item type",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:1004"
+        },
+        {
+            "message": "Missing item type",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:1290"
+        },
+        {
+            "message": "Missing item type\nEscape text for attribute or text content.",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:1378"
+        },
+        {
+            "message": "Missing item type",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:1495"
+        },
+        {
+            "message": "Missing item type",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:1510"
+        },
+        {
+            "message": "Missing item type\njsDump Copyright (c) 2008 Ariel Flesler - aflesler(at)gmail(dot)com |\nhttp://flesler.blogspot.com Licensed under BSD\n(http://www.opensource.org/licenses/bsd-license.php) Date: 5/15/2008",
+            "line": " deferred.js\\test\\qunit\\qunit\\qunit.js:1752"
+        },
+        {
+            "message": "Missing item type\nUtility object to contain a list of callbacks that can be fired with arguments and a context. <br/>\nCallback lists can be configured to delete listeners upon file (i.e. 'once'),\nand/or to retain last fired arguments and context to send to newly add listeners (i.e. 'memory')",
+            "line": " deferred.js\\deferred.js:9"
+        },
+        {
+            "message": "Missing item type\nBinds cb as a listener for this CallbackList. <br/>\nIf there is a last value stored in memory (only if constructed with memory=true), cb is immediately called (and if once===true) then removed as a listener.",
+            "line": " deferred.js\\deferred.js:25"
+        },
+        {
+            "message": "Missing item type\nFires all listeners with the given context and any arguments given after it",
+            "line": " deferred.js\\deferred.js:40"
+        },
+        {
+            "message": "Missing item type\nFires all listeners with the null context and any arguments given to fire.<br/>\nEquals to fireWith(nul,...)",
+            "line": " deferred.js\\deferred.js:60"
+        },
+        {
+            "message": "Missing item type\nFinite State Machine (Or a flying spaghetti monster). <br/>\nA finite state machine has a state (string), and fires events when the state changes",
+            "line": " deferred.js\\deferred.js:71"
+        },
+        {
+            "message": "Missing item type\nReturns the actual state options for <code>state</code>, as a merge between the default state options and the specific state options if any",
+            "line": " deferred.js\\deferred.js:98"
+        },
+        {
+            "message": "Missing item type\nAdds func as a listener when the state changes to <code>state<code>",
+            "line": " deferred.js\\deferred.js:117"
+        },
+        {
+            "message": "Missing item type\nIf state is defined, attempts to change to it, firing any listeners upon change. <br/>\nTrying to change from a final state has no effect, doesn't any event listeners and returns false.",
+            "line": " deferred.js\\deferred.js:128"
+        },
+        {
+            "message": "Missing item type\nPromise exposes the only promise's set of methods from a deferred object.",
+            "line": " deferred.js\\deferred.js:183"
+        }
+    ]
+}
